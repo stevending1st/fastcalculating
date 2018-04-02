@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>“易木杯”供应链大赛快速计算程序</title>
+    <style>
+        input {
+            border: 0px;
+            outline:none;
+            cursor: pointer;
+            background-color: cyan;
+        }
+        .redl {
+            background-color: cyan;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div>“易木杯”供应链大赛快速计算程序</div>
+    <div>
+        <h3>贷款快速计算</h3>
+        <div class="input-group">
+            <div>贷款数额：</div>
+            <input type="text" id="loan" oninput="loan_fun()"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
+            <div>(万元)</div>
+        </div><!-- /input-group -->
+        <table class="table table-bordered" border="8">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>贷款30天</th>
+                    <th>贷款90天</th>
+                    <th>贷款180天</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A1:特优(90~100)下调30.00%</td>
+                    <td id="loans[1]">0</td>
+                    <td id="loans[2]"></td>
+                    <td id="loans[3]"></td>
+                </tr>
+                <tr>
+                    <td>A2:优质(75~90)下调10.00%</td>
+                    <td id="loans[4]"></td>
+                    <td id="loans[5]"></td>
+                    <td id="loans[6]"></td>
+                </tr>
+                <tr>
+                    <td>B1:良好(60~75)100.00%</td>
+                    <td id="loans[7]"></td>
+                    <td id="loans[8]"></td>
+                    <td id="loans[9]"></td>
+                </tr>
+                <tr>
+                    <td>B2:一般(50~60)上涨20.00%</td>
+                    <td id="loans[10]"></td>
+                    <td id="loans[11]"></td>
+                    <td id="loans[12]"></td>
+                </tr>
+               <tr>
+                    <td>C1:较差(30~50)上涨50.00%</td>
+                    <td id="loans[13]"></td>
+                    <td id="loans[14]"></td>
+                    <td id="loans[15]"></td>
+                </tr>
+               <tr>
+                    <td>C2:很差(0~30)上涨150.00%</td>
+                    <td id="loans[16]"></td>
+                    <td id="loans[17]"></td>
+                    <td id="loans[18]"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3>订货预算</h3>
+        <div >
+            <table class="table table-bordered" border="8">
+                <tbody>    
+                    <tr>
+                        <th>物料名</th>
+                        <th>物料一</th>
+                        <th>物料二</th>
+                        <th>物料三</th>
+                    </tr>
+                    <tr class="redl">
+                        <th>注备</th>
+                        <th><input type="text" value="芯片组"></th>
+                        <th><input type="text" value="主机箱"></th>
+                        <th><input type="text" value="电源件"></th>
+                    </tr>
+                    <tr class="redl">
+                        <td>单位产品所耗材料</td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat1','leadTime1','dailyCapacity1',"oneUnitCycleOrder1","twoUnitCycleOrder1","threeUnitCycleOrder1"); id="unitConMat1"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="2"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat2','leadTime2','dailyCapacity2',"oneUnitCycleOrder2","twoUnitCycleOrder2","threeUnitCycleOrder2"); id="unitConMat2"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="1"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat3','leadTime3','dailyCapacity3',"oneUnitCycleOrder3","twoUnitCycleOrder3","threeUnitCycleOrder3"); id="unitConMat3"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="1"></td>
+                    </tr>
+                    <tr class="redl">
+                        <td>货物提前期(天)</td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat1','leadTime1','dailyCapacity1',"oneUnitCycleOrder1","twoUnitCycleOrder1","threeUnitCycleOrder1"); id="leadTime1"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="1"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat2','leadTime2','dailyCapacity2',"oneUnitCycleOrder2","twoUnitCycleOrder2","threeUnitCycleOrder2"); id="leadTime2"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="1"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat3','leadTime3','dailyCapacity3',"oneUnitCycleOrder3","twoUnitCycleOrder3","threeUnitCycleOrder3"); id="leadTime3"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="1"></td>
+                    </tr>
+                    <tr class="redl">
+                        <td>每日成品量</td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat1','leadTime1','dailyCapacity1',"oneUnitCycleOrder1","twoUnitCycleOrder1","threeUnitCycleOrder1"); id="dailyCapacity1"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="300"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat2','leadTime2','dailyCapacity2',"oneUnitCycleOrder2","twoUnitCycleOrder2","threeUnitCycleOrder2"); id="dailyCapacity2"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="300"></td>
+                        <td><input type="text" oninput=DelCycQuan('unitConMat3','leadTime3','dailyCapacity3',"oneUnitCycleOrder3","twoUnitCycleOrder3","threeUnitCycleOrder3"); id="dailyCapacity3"  onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="300"></td>
+                    </tr>
+                    <tr>
+                        <td>单位周期订货量</td>
+                        <td id="oneUnitCycleOrder1">0</td>
+                        <td id="oneUnitCycleOrder2">0</td>
+                        <td id="oneUnitCycleOrder3">0</td>
+                    </tr>
+                    <tr>
+                        <td>周期*2订货量</td>
+                        <td id="twoUnitCycleOrder1">0</td>
+                        <td id="twoUnitCycleOrder2">0</td>
+                        <td id="twoUnitCycleOrder3">0</td>
+                    </tr>
+                    <tr>
+                        <td>周期*3订货量</td>
+                        <td id="threeUnitCycleOrder1">0</td>
+                        <td id="threeUnitCycleOrder2">0</td>
+                        <td id="threeUnitCycleOrder3">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h3>货运</h3>
+        <div id="distribution">
+            <table class="table table-bordered" border="8">
+                <tbody>
+                    <tr>
+                        <th class="redl">总运量</th>
+                        <th class="redl"><input type="text"  v-model.number="allVolume"></th>
+                    </tr>
+                    <tr>
+                        <th class="redl">单趟耗时(天)</th>
+                        <th class="redl"><input type="text"  v-model.number="onceTime" ></th>
+                    </tr>
+                    <tr>
+                        <th class="redl">计划可运时长(天)</th>
+                        <th class="redl"><input type="text"  v-model.number="residueTime" ></th>
+                    </tr>
+                    <tr>
+                        <th class="redl">除数</th>
+                        <th class="redl"><input type="text"  v-model.number="Times"></th>
+                        <th>建议趟数</th>
+                        <td>{{sugTimes}}</td>
+                    </tr>
+                    <tr>
+                        <th class="redl">商</th>
+                        <th class="redl"><input type="text"  v-model.number="onceVolume"></th>
+                        <th>建议每趟运量</th>
+                        <td>{{sugOnceVolume}}</td>
+                    </tr>
+                    <tr>
+                        <th>余数</th>
+                        <td>{{ResidueVolume}}</td>
+                        <th>建议结余运量</th>
+                        <td>{{sugResidueVolume}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+    function GetNum(strId){
+        let a= document.getElementById(strId).value;
+        return a;
+    }
+
+    function loan_fun() {
+        /*GetStr("loan");*/
+        let loannum=document.getElementById("loan").value;
+        if(loannum===''){
+            loannum=1;
+        }
+        let [loan1,loan2,loans]=[[0.056,0.059,0.063],[0.7,0.9,1,1.2,1.5,2.5],[]];
+        for(let i=0;i<6;i++){
+            for(let j=0;j<3;j++){
+                loans.push(loan1[j]*loan2[i]*/*GetStr("loan")*/loannum);
+            }
+        }
+        for(let i=1;i<19;i++){
+            document.getElementById("loans[1]").innerHTML = loans[0];
+            document.getElementById("loans[2]").innerHTML = loans[1];
+            document.getElementById("loans[3]").innerHTML = loans[2];
+            document.getElementById("loans[4]").innerHTML = loans[3];
+            document.getElementById("loans[5]").innerHTML = loans[4];
+            document.getElementById("loans[6]").innerHTML = loans[5];
+            document.getElementById("loans[7]").innerHTML = loans[6];
+            document.getElementById("loans[8]").innerHTML = loans[7];
+            document.getElementById("loans[9]").innerHTML = loans[8];
+            document.getElementById("loans[10]").innerHTML = loans[9];
+            document.getElementById("loans[11]").innerHTML = loans[10];
+            document.getElementById("loans[12]").innerHTML = loans[11];
+            document.getElementById("loans[13]").innerHTML = loans[12];
+            document.getElementById("loans[14]").innerHTML = loans[13];
+            document.getElementById("loans[15]").innerHTML = loans[14];
+            document.getElementById("loans[16]").innerHTML = loans[15];
+            document.getElementById("loans[17]").innerHTML = loans[16];
+            document.getElementById("loans[18]").innerHTML = loans[17];
+        }
+    }
+
+    function DelCycQuan(unitConMat,leadTime,dailyCapacity,oneUnitCycleOrder,twoUnitCycleOrder,threeUnitCycleOrder){
+        let i=GetNum(unitConMat)*GetNum(leadTime)*GetNum(dailyCapacity);
+        document.getElementById(oneUnitCycleOrder).innerHTML = i;
+        document.getElementById(twoUnitCycleOrder).innerHTML = i*2;
+        document.getElementById(threeUnitCycleOrder).innerHTML = i*3;
+    }
+
+    DelCycQuan("unitConMat1","leadTime1","dailyCapacity1","oneUnitCycleOrder1","twoUnitCycleOrder1","threeUnitCycleOrder1");
+    DelCycQuan("unitConMat2","leadTime2","dailyCapacity2","oneUnitCycleOrder2","twoUnitCycleOrder2","threeUnitCycleOrder2");
+    DelCycQuan("unitConMat3","leadTime3","dailyCapacity3","oneUnitCycleOrder3","twoUnitCycleOrder3","threeUnitCycleOrder3");
+    loan_fun();
+
+    var distribution =new Vue({
+        el:'#distribution',
+        data:{
+            dailyCapacity1:300,
+            dailyresidue:300,
+            allVolume:0,
+            onceTime:0,
+            residueTime:0,
+            Times:0,
+            onceVolume:0,
+            //ResidueVolume:0
+        },
+        computed:{
+            sugTimes: function() {
+                if(this.allVolume==0||this.onceTime==0||this.residueTime==0){
+                    return 0;
+                }else{
+                    return parseFloat(this.residueTime)-parseFloat(this.onceTime)-1;
+                }
+            },
+            sugOnceVolume: function() {
+                if(this.allVolume==0||this.onceTime==0||this.residueTime==0){
+                    return 0;
+                }else{
+                    return Math.floor(parseFloat(this.allVolume)/parseFloat(this.sugTimes));
+                }
+            },
+            sugResidueVolume: function(){
+                if(this.allVolume==0||this.onceTime==0||this.residueTime==0){
+                    return 0;
+                }else{
+                    return parseFloat(this.allVolume)%parseFloat(this.sugOnceVolume);
+                }
+            }
+        }
+    });
+
+    distribution.$watch('Times',function(val){
+        if(val==''){
+            val=0;
+        }else{
+            this.onceVolume = Math.floor(parseFloat(this.allVolume)/parseFloat(val));
+            this.ResidueVolume=parseFloat(this.allVolume)%parseFloat(val);
+        }
+    });
+</script>
+</body>
+</html>
+
